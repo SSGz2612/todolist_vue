@@ -20,13 +20,16 @@ app.post("/", (req, res) => {
         genNewId();
         req.body.id = generatoriD;
         const js = req.body;
+        console.log(js);
 
         fs.readFile("dataTask.json", "utf-8", (e, dt) => {
             if(e) throw(e);
 
             let object = JSON.parse(dt);
             object.data.push(js);
+            console.log(object);
             let newObject = JSON.stringify(object);
+            console.log(newObject);
 
             fs.writeFile("dataTask.json", newObject, (e) => {
                 if(e) throw(e);
@@ -37,7 +40,9 @@ app.post("/", (req, res) => {
             status: "success"
         });
     } else if(req.body.action === "delete"){
-        console.log("eliminemos el " + req.body.idToDelete);
+        // console.log("eliminemos el " + req.body.idToDelete);
+        let val = req.body.idToDelete;
+        idToDelete(val);
     }
         
 });
@@ -54,4 +59,15 @@ function genNewId(){
             break;
         }
     }
+}
+
+function idToDelete(v){
+    let pn = {
+        data: dataTask.data.filter((n) => n.id !== v)
+    };
+    let newObject = JSON.stringify(pn);
+
+    fs.writeFile("dataTask.json", newObject, (e) => {
+        if(e) throw(e);
+    });
 }

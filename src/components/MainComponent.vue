@@ -67,7 +67,14 @@ export default {
       })
     },
     edit(i){
-      console.log("edit" + i);
+      axios.post('http://localhost:4000/', {
+        "action": "edit",
+        "idToEdit": i
+      })
+      .then((res) => console.log(res))
+      .catch((e) => {
+        console.log(e);
+      });
     },
     delet(i){
       axios.post('http://localhost:4000/', {
@@ -77,7 +84,7 @@ export default {
       .then((res) => console.log(res))
       .catch((e) => {
         console.log(e);
-      })
+      });
     }
   }
 }
